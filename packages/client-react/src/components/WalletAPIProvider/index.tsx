@@ -15,6 +15,7 @@ export function WalletAPIProvider({
   logger,
   getCustomModule,
   eventHandlers,
+  client: providedClient,
 }: WalletAPIProviderProps) {
   const [state, setState] = useState<WalletAPIProviderContextState>(
     initialContextValue.state,
@@ -23,12 +24,9 @@ export function WalletAPIProvider({
   const client = useRef<WalletAPIClient>();
 
   if (client.current === undefined) {
-    client.current = new WalletAPIClient(
-      transport,
-      logger,
-      getCustomModule,
-      eventHandlers,
-    );
+    client.current = providedClient
+      ? providedClient
+      : new WalletAPIClient(transport, logger, getCustomModule, eventHandlers);
   }
 
   useEffect(() => {

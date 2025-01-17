@@ -17,12 +17,22 @@ export type Loadable<T> = {
   value: T | null;
 };
 
-export type WalletAPIProviderProps = PropsWithChildren<{
-  transport: Transport;
-  logger?: Logger;
-  getCustomModule?: AnyCustomGetter;
-  eventHandlers?: EventHandlers;
-}>;
+export type WalletAPIProviderProps = PropsWithChildren<
+  | {
+      transport: Transport;
+      logger?: Logger;
+      getCustomModule?: AnyCustomGetter;
+      eventHandlers?: EventHandlers;
+      client?: never;
+    }
+  | {
+      transport?: never;
+      logger?: never;
+      getCustomModule?: never;
+      eventHandlers?: never;
+      client: WalletAPIClient;
+    }
+>;
 
 export type WalletAPIProviderContextState = {
   accounts: Loadable<Account[]>;
